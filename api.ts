@@ -1,6 +1,6 @@
 import { Task } from "@/types/tasks";
 
-const baseUrl = "http://localhost:3001";
+const baseUrl = "http://localhost:3002";
 
 export const getAllTodos = async (): Promise<Task[]> => {
   const res = await fetch(`${baseUrl}/tasks`, { cache: "no-store" }); //getserversideprops
