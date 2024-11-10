@@ -10,7 +10,7 @@ type Inputs = {
 //   text: z.string().min(1),
 // });
 
-export default function AddTask() {
+export default function AddTask({ setTasks }: { setTasks: any }) {
   const {
     register,
     handleSubmit,
@@ -22,8 +22,10 @@ export default function AddTask() {
     // resolver: zodResolver(schema),
   });
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    // console.log({ data });
-    // await addTodo({ id: uuidv4(), text: data.text });
+    setTasks((prevTasks: any) => [
+      ...prevTasks,
+      { id: Date.now().toString(), text: data.text },
+    ]);
   };
 
   return (

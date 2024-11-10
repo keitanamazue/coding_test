@@ -1,16 +1,16 @@
 "use client";
 
 import { Task } from "@/types/tasks";
-import { useEffect, useRef, useState } from "react";
-import { deleteTodo, updateTodo } from "../../../api";
-import { useRouter } from "next/navigation";
 import { PencilAltIcon, SaveIcon, TrashIcon } from "@heroicons/react/solid";
+import { useRouter } from "next/navigation";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 interface TaskProps {
   task: Task;
+  setTasks: Dispatch<SetStateAction<Task[]>>;
 }
 
-export default function Todo({ task }: TaskProps) {
+export default function Todo({ task, setTasks }: TaskProps) {
   const router = useRouter();
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -30,9 +30,12 @@ export default function Todo({ task }: TaskProps) {
   };
 
   const handleSaveButtonClick = async () => {
-    await updateTodo(task.id, editedTaskText);
+    setTasks((prev) => {
+      return prev.map((t) =>
+        t.id === task.id ? { ...t, text: editedTaskText } : t
+      );
+    });
     setIsEditing(false);
-    router.refresh();
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,8 +43,7 @@ export default function Todo({ task }: TaskProps) {
   };
 
   const handleDelete = async () => {
-    await deleteTodo(task.id);
-    router.refresh();
+    setTasks((prev) => prev.filter((t) => t.id !== task.id));
   };
 
   return (

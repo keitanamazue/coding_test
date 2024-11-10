@@ -3,8 +3,7 @@ import { Task } from "@/types/tasks";
 const baseUrl = "http://localhost:3002";
 
 export const getAllTodos = async (): Promise<Task[]> => {
-  const res = await fetch(`${baseUrl}/tasks`, { cache: "no-store" }); //getserversideprops
-  // const res = await fetch(`${baseUrl}/tasks`, { next: { revalidate: 30 } }); //getserversideprops
+  const res = await fetch(`${baseUrl}/tasks`, { cache: "no-store" });
   const todos = await res.json();
   return todos;
 };
